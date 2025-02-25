@@ -2,13 +2,34 @@ package org.example;
 
 import java.io.File;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 public class Main {
     public static void main(String[] args) {
 
-        String folderPath = "C:/Users/Admin/Desktop/джава";
+        /*MyThread thread = new MyThread(1);
+        MyThread thread2 = new MyThread(2);
+
+        thread.start();
+        thread2.start();
+
+         */
+
+        String folderPath = "C:/Users/Admin/Desktop";
         File file = new File(folderPath);
-        System.out.println(getFolderSize(file));
+        long start = System.currentTimeMillis();
+
+        FolderSizeCalculator calculator = new FolderSizeCalculator(file);
+
+        ForkJoinPool pool = new ForkJoinPool();
+        long size = pool.invoke(calculator);
+        System.out.println(size);
+
+        //System.out.println(getFolderSize(file));
+        long duration = System.currentTimeMillis() - start;
+        System.out.println(duration + " milliseconds");
+
+
 
        /* Set keys = System.getProperties().keySet();
         for(Object key : keys) {
